@@ -12,6 +12,11 @@ const LinearGradient mainButton = LinearGradient(colors: [
   Color.fromRGBO(216, 78, 16, 1),
 ], begin: FractionalOffset.topCenter, end: FractionalOffset.bottomCenter);
 
+const LinearGradient registerButtonColor = LinearGradient(colors: [
+  Color.fromRGBO(29, 204, 6, 1),
+  Color.fromRGBO(71, 217, 8, 1),
+  Color.fromRGBO(32, 212, 12, 1),
+], begin: FractionalOffset.topCenter, end: FractionalOffset.bottomCenter);
 const List<BoxShadow> shadow = [
   BoxShadow(color: Colors.black12, offset: Offset(0, 3), blurRadius: 6)
 ];

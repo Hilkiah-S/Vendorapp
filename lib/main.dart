@@ -1,7 +1,11 @@
 import 'package:vendorapp/screens/splash_page.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  // await Hive.initFlutter();
+  // var box = Hive.openBox('UserBox');
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

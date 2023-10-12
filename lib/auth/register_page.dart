@@ -1,6 +1,8 @@
+import 'package:vendorapp/auth/login_page.dart';
 import 'package:vendorapp/screens/app_properties.dart';
 import 'package:flutter/material.dart';
 import 'package:vendorapp/http/signup.dart';
+import 'package:dio/dio.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -45,8 +47,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     Widget registerButton = InkWell(
       onTap: () {
-        // Navigator.of(context)
-        //     .push(MaterialPageRoute(builder: (_) => ForgotPasswordPage()));
+        _sendCode();
       },
       child: Container(
         width: MediaQuery.of(context).size.width / 2,
@@ -59,7 +60,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     fontStyle: FontStyle.normal,
                     fontSize: 20.0))),
         decoration: BoxDecoration(
-            gradient: mainButton,
+            gradient: registerButtonColor,
             boxShadow: [
               BoxShadow(
                 color: Color.fromRGBO(0, 0, 0, 0.16),
@@ -212,6 +213,101 @@ class _RegisterPageState extends State<RegisterPage> {
           )
         ],
       ),
+    );
+  }
+
+  void _sendCode() async {
+    if (password.text == cmfPassword.text) {
+      try {
+        Response<Map> response =
+            await Dio().post("https://api.semer.dev/api/auth/register",
+                data: {
+                  "name": name.text,
+                  "email": email.text,
+                  "username": username.text,
+                  "password": password.text,
+                  "phone_number": phone.text,
+                },
+                options: new Options(contentType: "application/json"));
+
+        print(response.data);
+        var success = response.data!['status'];
+        print(success);
+
+        if (success == "error") {
+          _showErrorDialog(response.data!['message']);
+        } else if (success == "success") {
+          _showMyDialog();
+        }
+      } on DioException catch (e) {
+        String errormsg = "${e}";
+        _showErrorDialog(errormsg);
+      }
+    } else
+      _showErrorDialog("Password doesn't match");
+  }
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext fcontext) {
+        return AlertDialog(
+          title: const Text('Successfully registered'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Icon(
+                  Icons.check_box_rounded,
+                  color: Colors.green,
+                  size: 120,
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (_) => WelcomeBackPage()));
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showErrorDialog(String message) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext fcontext) {
+        return AlertDialog(
+          title: Text(message),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Icon(
+                  Icons.warning,
+                  color: Colors.red,
+                  size: 120,
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -5,8 +5,14 @@ import 'package:vendorapp/components/product_list.dart';
 import 'package:vendorapp/components/profile_page.dart';
 import 'package:vendorapp/components/tab_view.dart';
 import 'package:vendorapp/custom_background.dart';
+import 'package:vendorapp/local_storage/secure_storage.dart';
+import 'package:vendorapp/models/product_category.dart';
+import 'package:vendorapp/models/product_details.dart';
+import 'package:vendorapp/models/subCategories.dart';
 import 'package:vendorapp/screens/app_properties.dart';
 import 'package:vendorapp/screens/create_post.dart';
+import 'package:dio/dio.dart';
+import 'dart:convert';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -17,14 +23,142 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage>
     with TickerProviderStateMixin<MainPage> {
+  bool recievedTabs = false;
+  bool recievedProducts = false;
+  bool recievedProductsDetails = false;
+  late bool tabsAndProucts = recievedProducts && recievedTabs;
   late TabController tabController;
   late TabController bottomTabController;
-
+  int numberOfCategory = 5;
+  List<ProductCategory> productCategories = [];
+  List<ProductDetails> productDetailList = [];
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 5, vsync: this);
-    bottomTabController = TabController(length: 4, vsync: this);
+
+    // void getTabs() async {
+    //   var secStore = SecureStorage();
+    //   var token = await secStore.readSecureData('token');
+    //   print("token on main page ${token}");
+    //   final Options options = Options(
+    //     headers: {
+    //       "Authorization": "Bearer ${token}",
+    //     },
+    //   );
+    //   Response<Map> response = await Dio()
+    //       .get("https://api.semer.dev/api/admin/category", options: options);
+
+    //   print(response);
+
+    //   List<dynamic> dataList = response.data?['data'];
+    //   for (var item in dataList) {
+    //     for (var eachkey in item.keys) {
+    //       print("${eachkey}:${item.values}");
+    //     }
+    //   }
+    //   dataList[0]['name'];
+    //   print(dataList);
+    // }
+    void getTabs() async {
+      var secStore = SecureStorage();
+      var token = await secStore.readSecureData('token');
+      print("token on main page ${token}");
+      final Options options = Options(
+        headers: {
+          "Authorization": "Bearer ${token}",
+        },
+      );
+      Response<Map> response = await Dio()
+          .get("https://api.semer.dev/api/admin/category", options: options);
+
+      if (!(response.data == null)) {
+        setState(() {
+          recievedTabs = true;
+        });
+      }
+      List<dynamic> dataList = response.data?['data'];
+
+      productCategories =
+          dataList.map((e) => ProductCategory.fromMap(e)).toList();
+
+      print(productCategories.map((e) => e.name));
+      //loop
+      // List<Widget> dropdowns
+      // for (var product in productCategories) {
+
+      // }
+      setState(() {
+        numberOfCategory = productCategories.length;
+      });
+    }
+
+    void getmyProducts() async {
+      var secStore = SecureStorage();
+      var token = await secStore.readSecureData('token');
+      print("token on main page ${token}");
+      final Options options = Options(
+        headers: {
+          "Authorization": "Bearer ${token}",
+        },
+      );
+      Response<Map> response = await Dio()
+          .get("https://api.semer.dev/api/supplier", options: options);
+
+      if (!(response.data == null)) {
+        setState(() {
+          recievedProducts = true;
+        });
+      }
+      List<dynamic> dataList = response.data?['data'];
+
+      // productCategories =
+      //     dataList.map((e) => ProductCategory.fromMap(e)).toList();
+
+      // print(productCategories.map((e) => e.name));
+      //loop
+      // List<Widget> dropdowns
+      // for (var product in productCategories) {
+
+      // }
+    }
+
+    void getProductdetails() async {
+      var secStore = SecureStorage();
+      var token = await secStore.readSecureData('token');
+      print("token on main page ${token}");
+      final Options options = Options(
+        headers: {
+          "Authorization": "Bearer ${token}",
+        },
+      );
+      Response<Map> response = await Dio()
+          .get("https://api.semer.dev/api/supplier", options: options);
+
+      List<dynamic> product_Details = response.data?['data'];
+
+      productDetailList =
+          product_Details.map((e) => ProductDetails.fromMap(e)).toList();
+      print("Product Details");
+      print(productDetailList.map((e) => e.name));
+      print(productDetailList.map((e) => e.description));
+      print(productDetailList.map((e) => e.images[0].img_url));
+      if (!(response.data == null)) {
+        setState(() {
+          recievedProductsDetails = true;
+        });
+      }
+    }
+
+    getTabs();
+    getmyProducts();
+    getProductdetails();
+    //  int getNumberofTabs()async {
+
+    //     return  a;
+    //   }
+
+    tabController = TabController(length: numberOfCategory, vsync: this);
+    bottomTabController = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -48,12 +182,15 @@ class _MainPageState extends State<MainPage>
       ),
     );
     Widget tabBar = TabBar(
+      // tabs: [
+      //   Tab(text: 'All'),
+      //   Tab(text: 'Clothing'),
+      //   Tab(text: 'Electronics'),
+      //   Tab(text: 'Shoes'),
+      //   Tab(text: 'Appliances'),
+      // ],
       tabs: [
-        Tab(text: 'All'),
-        Tab(text: 'Clothing'),
-        Tab(text: 'Electronics'),
-        Tab(text: 'Shoes'),
-        Tab(text: 'Appliances'),
+        ...productCategories.map((e) => Tab(text: '${e.name}')).toList(),
       ],
       labelStyle: TextStyle(fontSize: 16.0),
       unselectedLabelStyle: TextStyle(
@@ -66,42 +203,52 @@ class _MainPageState extends State<MainPage>
     );
     return Scaffold(
       bottomNavigationBar: CustomBottomBar(controller: bottomTabController),
-      body: CustomPaint(
-        painter: MainBackground(),
-        child: TabBarView(
-          controller: bottomTabController,
-          physics: NeverScrollableScrollPhysics(),
-          children: <Widget>[
-            SafeArea(
-              child: NestedScrollView(
-                headerSliverBuilder:
-                    (BuildContext context, bool innerBoxIsScrolled) {
-                  // These are the slivers that show up in the "outer" scroll view.
-                  return <Widget>[
-                    SliverToBoxAdapter(
-                      child: appBar,
+      body: recievedProducts && recievedTabs && recievedProductsDetails
+          ? CustomPaint(
+              painter: MainBackground(),
+              child: TabBarView(
+                controller: bottomTabController,
+                physics: NeverScrollableScrollPhysics(),
+                children: <Widget>[
+                  SafeArea(
+                    child: NestedScrollView(
+                      // children: [
+                      //   Row(children: [],)
+                      // ],
+                      headerSliverBuilder:
+                          (BuildContext context, bool innerBoxIsScrolled) {
+                        // These are the slivers that show up in the "outer" scroll view.
+                        return <Widget>[
+                          SliverToBoxAdapter(
+                            child: appBar,
+                          ),
+                          // SliverToBoxAdapter(
+                          //   child: topHeader,
+                          // ),
+                          // SliverToBoxAdapter(
+                          //   child: ProductList(),
+                          // ),
+                          SliverToBoxAdapter(
+                            child: tabBar,
+                          )
+                        ];
+                      },
+                      body: TabView(
+                        tabController: tabController,
+                        myproducts: productDetailList,
+                      ),
                     ),
-                    // SliverToBoxAdapter(
-                    //   child: topHeader,
-                    // ),
-                    // SliverToBoxAdapter(
-                    //   child: ProductList(),
-                    // ),
-                    SliverToBoxAdapter(
-                      child: tabBar,
-                    )
-                  ];
-                },
-                body: TabView(
-                  tabController: tabController,
-                ),
+                  ),
+                  CreatePost(),
+                  ProfilePage(),
+                ],
               ),
-            ),
-            CreatePost(),
-            ProfilePage(),
-          ],
-        ),
-      ),
+            )
+          : Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: Center(child: CircularProgressIndicator())),
     );
   }
 }

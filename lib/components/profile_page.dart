@@ -97,18 +97,19 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ),
                 ListTile(
-                  title: Text('Settings'),
-                  subtitle: Text('Privacy and logout'),
-                  leading: Image.asset(
-                    'assets/icons/settings_icon.png',
-                    fit: BoxFit.scaleDown,
-                    width: 30,
-                    height: 30,
-                  ),
-                  trailing: Icon(Icons.chevron_right, color: yellow),
-                  onTap: () => Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (_) => SettingsPage())),
-                ),
+                    title: Text('Settings'),
+                    subtitle: Text('Privacy and logout'),
+                    leading: Image.asset(
+                      'assets/icons/settings_icon.png',
+                      fit: BoxFit.scaleDown,
+                      width: 30,
+                      height: 30,
+                    ),
+                    trailing: Icon(Icons.chevron_right, color: yellow),
+                    onTap: () => {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => SettingsPage())),
+                        }),
                 Divider(),
                 ListTile(
                   title: Text('Help & Support'),

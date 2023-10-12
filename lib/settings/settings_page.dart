@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:vendorapp/settings/change_password.dart';
 import 'package:vendorapp/settings/legal_about.dart';
 import 'package:vendorapp/settings/notifications_settings.dart';
+// import 'package:hive/hive.dart';
 
 class SettingsPage extends StatelessWidget {
   @override
@@ -88,12 +89,16 @@ class SettingsPage extends StatelessWidget {
                                       builder: (_) => ChangePasswordPage())),
                             ),
                             ListTile(
-                              title: Text('Sign out'),
-                              leading: Image.asset('assets/icons/sign_out.png'),
-                              onTap: () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (_) => WelcomeBackPage())),
-                            ),
+                                title: Text('Sign out'),
+                                leading:
+                                    Image.asset('assets/icons/sign_out.png'),
+                                onTap: () => {
+                                      // _mybox.clear(),
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (_) =>
+                                                  WelcomeBackPage())),
+                                    }),
                           ],
                         ),
                       ),
