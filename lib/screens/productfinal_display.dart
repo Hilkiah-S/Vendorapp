@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:vendorapp/main/main_page.dart';
 import 'package:vendorapp/models/bundle_item.dart';
 import 'package:vendorapp/models/imageListModel.dart';
 import 'package:vendorapp/models/product_details.dart';
@@ -48,6 +50,16 @@ class _ProductFinalDisplayState extends State<ProductFinalDisplay> {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    IconButton(
+                        onPressed: () => {
+                              Get.off(MainPage()),
+                            },
+                        icon: Icon(Icons.arrow_back)),
+                  ],
+                ),
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height / 2,

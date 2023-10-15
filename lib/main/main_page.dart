@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart' hide Response;
 import 'package:vendorapp/components/custom_bottom_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:vendorapp/components/product_list.dart';
@@ -12,6 +13,7 @@ import 'package:vendorapp/models/subCategories.dart';
 import 'package:vendorapp/screens/app_properties.dart';
 import 'package:vendorapp/screens/create_post.dart';
 import 'package:dio/dio.dart';
+import 'package:vendorapp/screens/notifications_page.dart';
 import 'dart:convert';
 
 import 'package:vendorapp/screens/postcomment.dart';
@@ -171,9 +173,9 @@ class _MainPageState extends State<MainPage>
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           IconButton(
-              onPressed: () => {},
-              // Navigator.of(context)
-              //     .push(MaterialPageRoute(builder: (_) => NotificationsPage())),
+              onPressed: () => {
+                    Get.off(NotificationsPage()),
+                  },
               icon: Icon(Icons.notifications)),
           IconButton(
               onPressed: () => {},
