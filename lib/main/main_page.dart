@@ -14,6 +14,8 @@ import 'package:vendorapp/screens/create_post.dart';
 import 'package:dio/dio.dart';
 import 'dart:convert';
 
+import 'package:vendorapp/screens/postcomment.dart';
+
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
@@ -158,7 +160,7 @@ class _MainPageState extends State<MainPage>
     //   }
 
     tabController = TabController(length: numberOfCategory, vsync: this);
-    bottomTabController = TabController(length: 3, vsync: this);
+    bottomTabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -241,6 +243,7 @@ class _MainPageState extends State<MainPage>
                   ),
                   CreatePost(),
                   ProfilePage(),
+                  Comments(),
                 ],
               ),
             )
