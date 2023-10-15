@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -354,8 +357,34 @@ class _CreatePostState extends State<CreatePost> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          ElevatedButton(
-                              onPressed: () {
+                          // ElevatedButton(
+                          //     onPressed: () {
+                          //       uploadImages(
+                          //         adresses,
+                          //         selecteddropdownValue,
+                          //         title.text,
+                          //         description.text,
+                          //         int.parse(price.text),
+                          //         int.parse(quantity.text),
+                          //       );
+                          //     },
+                          //     style: ElevatedButton.styleFrom(
+                          //       fixedSize: Size(300, 65),
+                          //       backgroundColor:
+                          //           const Color.fromARGB(255, 49, 207, 54),
+                          //     ),
+                          //     child: Text(
+                          //       "Post",
+                          //       style: TextStyle(
+                          //           fontSize: 20, fontFamily: 'Arial'),
+                          //     )),
+                          GestureDetector(
+                            onTap: () {
+                              if (adresses != null &&
+                                  title.text != null &&
+                                  description.text != null &&
+                                  price.text != null &&
+                                  quantity.text != null) {
                                 uploadImages(
                                   adresses,
                                   selecteddropdownValue,
@@ -364,17 +393,35 @@ class _CreatePostState extends State<CreatePost> {
                                   int.parse(price.text),
                                   int.parse(quantity.text),
                                 );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                fixedSize: Size(300, 65),
-                                backgroundColor:
-                                    const Color.fromARGB(255, 49, 207, 54),
+                              } else {
+                                Get.snackbar(
+                                    "Error", "All fields must be filled");
+                              }
+                            },
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.fromLTRB(20, 10, 10, 10),
+                              child: Container(
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 14, 0, 10),
+                                height: 55,
+                                width: 275,
+                                decoration: BoxDecoration(
+                                  color: HexColor('#44564a'),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                child: Text(
+                                  "Post",
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
                               ),
-                              child: Text(
-                                "Post",
-                                style: TextStyle(
-                                    fontSize: 20, fontFamily: 'Arial'),
-                              )),
+                            ),
+                          ),
                         ],
                       )
                     ],
