@@ -29,17 +29,21 @@ class CustomBottomBar extends StatelessWidget {
             },
           ),
           IconButton(
-            icon: SvgPicture.asset('assets/icons/contact_us.svg'),
-            onPressed: () {
-              controller.animateTo(3);
-            },
-          ),
-          IconButton(
             icon: Image.asset('assets/icons/profile_icon.png'),
             onPressed: () {
               controller.animateTo(2);
             },
-          )
+          ),
+          IconButton(
+            icon: Image.asset(
+              'assets/icons/contact_us.png',
+              width: 25,
+              height: 25,
+            ),
+            onPressed: () {
+              controller.animateTo(3);
+            },
+          ),
         ],
       ),
     );

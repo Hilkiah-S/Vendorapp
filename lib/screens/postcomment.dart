@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:vendorapp/local_storage/secure_storage.dart';
@@ -21,31 +22,74 @@ class _CommentsState extends State<Comments> {
           decoration: BoxDecoration(
             color: Colors.white,
           ),
-          child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: SingleChildScrollView(
-                  child: Column(children: [
-                TextField(
-                  controller: comment,
-                  maxLines: 6,
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.comment),
-                    // Add a label here
-                    hintText: "Your comment, here",
-                    fillColor: HexColor("#f0f3f1"),
-                    contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                    hintStyle: GoogleFonts.poppins(
-                      fontSize: 15,
-                      color: HexColor("#8d8d8d"),
+          child: Center(
+            child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: SingleChildScrollView(
+                    child: Column(children: [
+                  Text(
+                    "Comment",
+                    style: GoogleFonts.poppins(
+                      fontSize: 50,
+                      fontWeight: FontWeight.bold,
+                      color: HexColor("#4f4f4f"),
                     ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide.none,
-                    ),
-                    filled: true,
                   ),
-                ),
-              ])))),
+                  TextField(
+                    controller: comment,
+                    maxLines: 7,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.comment),
+                      // Add a label here
+                      hintText: "Your comment, here",
+                      fillColor: HexColor("#f0f3f1"),
+                      contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                      hintStyle: GoogleFonts.poppins(
+                        fontSize: 15,
+                        color: HexColor("#8d8d8d"),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none,
+                      ),
+                      filled: true,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      if (comment.text != null) {
+                        Comment_post(comment.text);
+                      } else {
+                        Get.snackbar("Error", "Comment can not be Empty");
+                      }
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
+                      child: Container(
+                        padding: const EdgeInsets.fromLTRB(0, 14, 0, 10),
+                        height: 55,
+                        width: 275,
+                        decoration: BoxDecoration(
+                          color: HexColor('#44564a'),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Text(
+                          "Comment",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ]))),
+          )),
     );
   }
 
