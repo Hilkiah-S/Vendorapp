@@ -40,29 +40,6 @@ class _MainPageState extends State<MainPage>
   void initState() {
     super.initState();
 
-    // void getTabs() async {
-    //   var secStore = SecureStorage();
-    //   var token = await secStore.readSecureData('token');
-    //   print("token on main page ${token}");
-    //   final Options options = Options(
-    //     headers: {
-    //       "Authorization": "Bearer ${token}",
-    //     },
-    //   );
-    //   Response<Map> response = await Dio()
-    //       .get("https://api.semer.dev/api/admin/category", options: options);
-
-    //   print(response);
-
-    //   List<dynamic> dataList = response.data?['data'];
-    //   for (var item in dataList) {
-    //     for (var eachkey in item.keys) {
-    //       print("${eachkey}:${item.values}");
-    //     }
-    //   }
-    //   dataList[0]['name'];
-    //   print(dataList);
-    // }
     void getTabs() async {
       var secStore = SecureStorage();
       var token = await secStore.readSecureData('token');
@@ -75,91 +52,29 @@ class _MainPageState extends State<MainPage>
       Response<Map> response = await Dio()
           .get("https://api.semer.dev/api/admin/category", options: options);
 
-      if (!(response.data == null)) {
-        setState(() {
-          recievedTabs = true;
-        });
-      }
+      print(response);
+
       List<dynamic> dataList = response.data?['data'];
-
-      productCategories =
-          dataList.map((e) => ProductCategory.fromMap(e)).toList();
-
-      print(productCategories.map((e) => e.name));
-      //loop
-      // List<Widget> dropdowns
-      // for (var product in productCategories) {
-
-      // }
-      setState(() {
-        numberOfCategory = productCategories.length;
-      });
-    }
-
-    void getmyProducts() async {
-      var secStore = SecureStorage();
-      var token = await secStore.readSecureData('token');
-      print("token on main page ${token}");
-      final Options options = Options(
-        headers: {
-          "Authorization": "Bearer ${token}",
-        },
-      );
-      Response<Map> response = await Dio()
-          .get("https://api.semer.dev/api/supplier", options: options);
-
-      if (!(response.data == null)) {
-        setState(() {
-          recievedProducts = true;
-        });
+      for (var item in dataList) {
+        for (var eachkey in item.keys) {
+          print("${eachkey}:${item.values}");
+        }
       }
-      List<dynamic> dataList = response.data?['data'];
-
-      // productCategories =
-      //     dataList.map((e) => ProductCategory.fromMap(e)).toList();
-
-      // print(productCategories.map((e) => e.name));
-      //loop
-      // List<Widget> dropdowns
-      // for (var product in productCategories) {
-
-      // }
+      dataList[0]['name'];
+      print(dataList);
     }
+  
 
-    void getProductdetails() async {
-      var secStore = SecureStorage();
-      var token = await secStore.readSecureData('token');
-      print("token on main page ${token}");
-      final Options options = Options(
-        headers: {
-          "Authorization": "Bearer ${token}",
-        },
-      );
-      Response<Map> response = await Dio()
-          .get("https://api.semer.dev/api/supplier", options: options);
+    
 
-      List<dynamic> product_Details = response.data?['data'];
-
-      productDetailList =
-          product_Details.map((e) => ProductDetails.fromMap(e)).toList();
-      print("Product Details");
-      print(productDetailList.map((e) => e.name));
-      print(productDetailList.map((e) => e.description));
-      print(productDetailList.map((e) => e.images[0].img_url));
-      if (!(response.data == null)) {
-        setState(() {
-          recievedProductsDetails = true;
-        });
-      }
-    }
+  
 
     getTabs();
-    getmyProducts();
-    getProductdetails();
-    //  int getNumberofTabs()async {
+  
+    int getNumberofTabs()async {
 
-    //     return  a;
-    //   }
+      return  a;
+       }
 
     tabController = TabController(length: numberOfCategory, vsync: this);
     bottomTabController = TabController(length: 4, vsync: this);
@@ -179,20 +94,14 @@ class _MainPageState extends State<MainPage>
               icon: Icon(Icons.notifications)),
           IconButton(
               onPressed: () => {},
-              // Navigator.of(context)
-              //     .push(MaterialPageRoute(builder: (_) => SearchPage())),
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (_) => SearchPage())),
               icon: SvgPicture.asset('assets/icons/search_icon.svg'))
         ],
       ),
     );
     Widget tabBar = TabBar(
-      // tabs: [
-      //   Tab(text: 'All'),
-      //   Tab(text: 'Clothing'),
-      //   Tab(text: 'Electronics'),
-      //   Tab(text: 'Shoes'),
-      //   Tab(text: 'Appliances'),
-      // ],
+    
       tabs: [
         ...productCategories.map((e) => Tab(text: '${e.name}')).toList(),
       ],
@@ -216,9 +125,7 @@ class _MainPageState extends State<MainPage>
                 children: <Widget>[
                   SafeArea(
                     child: NestedScrollView(
-                      // children: [
-                      //   Row(children: [],)
-                      // ],
+                     
                       headerSliverBuilder:
                           (BuildContext context, bool innerBoxIsScrolled) {
                         // These are the slivers that show up in the "outer" scroll view.
@@ -226,12 +133,12 @@ class _MainPageState extends State<MainPage>
                           SliverToBoxAdapter(
                             child: appBar,
                           ),
-                          // SliverToBoxAdapter(
-                          //   child: topHeader,
-                          // ),
-                          // SliverToBoxAdapter(
-                          //   child: ProductList(),
-                          // ),
+                          SliverToBoxAdapter(
+                            child: topHeader,
+                          ),
+                          SliverToBoxAdapter(
+                            child: ProductList(),
+                          ),
                           SliverToBoxAdapter(
                             child: tabBar,
                           )
