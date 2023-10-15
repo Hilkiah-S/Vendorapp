@@ -1,5 +1,5 @@
 import 'package:email_validator/email_validator.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -85,13 +85,18 @@ class _LoginBodyScreenState extends State<LoginBodyScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "Log In",
-                              style: GoogleFonts.poppins(
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold,
-                                color: HexColor("#4f4f4f"),
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Log In",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.bold,
+                                    color: HexColor("#4f4f4f"),
+                                  ),
+                                ),
+                              ],
                             ),
                             const SizedBox(
                               height: 20,
@@ -215,7 +220,7 @@ class _LoginBodyScreenState extends State<LoginBodyScreen> {
                     Transform.translate(
                       offset: const Offset(0, -253),
                       child: Image.asset(
-                        'assets/Images/plants2.png',
+                        'assets/logo.png',
                         scale: 1.5,
                         width: double.infinity,
                       ),

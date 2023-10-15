@@ -228,7 +228,7 @@ class _ProductFinalDisplayState extends State<ProductFinalDisplay> {
                               borderRadius: BorderRadius.circular(30),
                             ),
                             child: Text(
-                              "Repost",
+                              "Update",
                               textAlign: TextAlign.center,
                               style: GoogleFonts.poppins(
                                 color: Colors.white,
@@ -287,7 +287,7 @@ class _ProductFinalDisplayState extends State<ProductFinalDisplay> {
 
     try {
       var response = await dio.post(
-          "https://api.semer.dev/api/product/update/${widget.myproducts.supplier_id}",
+          "https://api.semer.dev/api/product/update/${widget.myproducts.id}",
           data: {
             "name": title,
             "unit_price": price,

@@ -53,7 +53,6 @@ class _SignUpBodyScreenState extends State<SignUpBodyScreen> {
                       ),
                       child: GetBuilder<FlowController>(
                         builder: (context) {
-                          // Menampilkan tampilan sesuai dengan alur saat ini
                           if (flowController.currentFlow == 1) {
                             return const SignUpOne();
                           } else {
@@ -65,7 +64,7 @@ class _SignUpBodyScreenState extends State<SignUpBodyScreen> {
                     Transform.translate(
                       offset: const Offset(0, -253),
                       child: Image.asset(
-                        'assets/plants2.png',
+                        'assets/logo.png',
                         scale: 1.5,
                         width: double.infinity,
                       ),

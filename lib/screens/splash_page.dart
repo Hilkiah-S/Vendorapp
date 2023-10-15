@@ -44,7 +44,8 @@ class _SplashScreenState extends State<SplashScreen>
           image: DecorationImage(
               image: AssetImage('assets/background.jpg'), fit: BoxFit.cover)),
       child: Container(
-        decoration: BoxDecoration(color: transparentYellow),
+        decoration:
+            BoxDecoration(color: const Color.fromARGB(255, 108, 215, 111)),
         child: SafeArea(
           child: new Scaffold(
             body: Column(
