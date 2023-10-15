@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vendorapp/auth/login_page.dart';
 import 'package:vendorapp/screens/app_properties.dart';
+import 'package:vendorapp/screens/login/login.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -34,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   void navigationPage() {
     Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (_) => WelcomeBackPage()));
+        .pushReplacement(MaterialPageRoute(builder: (_) => LoginScreen()));
   }
 
   Widget build(BuildContext context) {
@@ -53,19 +54,19 @@ class _SplashScreenState extends State<SplashScreen>
                       opacity: opacity.value,
                       child: new Image.asset('assets/logo.png')),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: RichText(
-                    text: TextSpan(
-                        style: TextStyle(color: Colors.black),
-                        children: [
-                          TextSpan(text: 'Powered by '),
-                          TextSpan(
-                              text: 'int2.io',
-                              style: TextStyle(fontWeight: FontWeight.bold))
-                        ]),
-                  ),
-                )
+                // Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: RichText(
+                //     text: TextSpan(
+                //         style: TextStyle(color: Colors.black),
+                //         children: [
+                //           TextSpan(text: 'Powered by '),
+                //           TextSpan(
+                //               text: 'int2.io',
+                //               style: TextStyle(fontWeight: FontWeight.bold))
+                //         ]),
+                //   ),
+                // )
               ],
             ),
           ),
